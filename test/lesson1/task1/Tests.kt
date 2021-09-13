@@ -93,7 +93,7 @@ class Tests {
 
     @Test
     @Tag("2")
-    fun accountInThreeYears() {
+    fun accountInThreeYears() {11
         assertEquals(133.1, accountInThreeYears(100, 10), 1e-2)
         assertEquals(1.0, accountInThreeYears(1, 0), 1e-2)
         assertEquals(104.0, accountInThreeYears(13, 100), 1e-2)
