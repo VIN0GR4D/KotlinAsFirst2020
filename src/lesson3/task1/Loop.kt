@@ -72,7 +72,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int = n.toString().length
 
 /**
  * Простая (2 балла)
@@ -138,7 +138,19 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    // rN = reversedN
+    var rN = 0
+    var m = n
+    var digit = 0
+    while (m > 0) {
+        digit = m % 10
+        rN *= 10
+        m /= 10
+        rN += digit
+    }
+    return rN
+}
 
 /**
  * Средняя (3 балла)
@@ -149,7 +161,17 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var pal = n
+    var n2 = 0
+    while (pal > 10) {
+        n2 += pal % 10
+        n2 *= 10
+        pal /= 10
+    }
+    n2 += pal
+    return n2 == n
+}
 
 /**
  * Средняя (3 балла)
@@ -160,6 +182,13 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun hasDifferentDigits(n: Int): Boolean = TODO()
+  //  var m = n
+  //  var lastDigit = 0
+  //  var penultimateDigit = 0
+  //  while (m > 0) {
+  //      lastDigit = m % 10
+  //      penultimateDigit = (m % 100) / 10
+  //      if (lastDigit == penultimateDigit) continue
 
 /**
  * Средняя (4 балла)
@@ -192,7 +221,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int = n
 
 /**
  * Сложная (5 баллов)
