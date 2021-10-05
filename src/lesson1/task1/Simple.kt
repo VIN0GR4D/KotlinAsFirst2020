@@ -89,7 +89,7 @@ fun angleInRadian(deg: Int, min: Int, sec: Int): Double {
     val min = min.toDouble()
     val sec = sec.toDouble()
     val rad = (deg + (min + sec / 60) / 60 ) * PI / 180
-    return (rad)
+    return rad
 }
 
 /**
