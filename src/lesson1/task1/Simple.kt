@@ -109,7 +109,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = TODO()
 fun thirdDigit(number: Int): Int {
     val x = number % 1000
     val third = x / 100
-    return (third)
+    return third
 }
 
 /**
@@ -135,7 +135,7 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
     val firstYear = initial / 100 * percent + initial
     val secondYear = firstYear / 100 * percent + firstYear
     val thirdYear = secondYear / 100 * percent + secondYear
-    return (thirdYear)
+    return thirdYear
 }
 
 /**
