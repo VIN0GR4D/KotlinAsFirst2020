@@ -149,17 +149,16 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun revert(n: Int): Int {
-    // rN = reversedN
-    var rN = 0
+    var reversedN = 0
     var m = n
-    var digit = 0
     while (m > 0) {
+        var digit = 0
         digit = m % 10
-        rN *= 10
+        reversedN *= 10
         m /= 10
-        rN += digit
+        reversedN += digit
     }
-    return rN
+    return reversedN
 }
 
 /**
@@ -172,15 +171,8 @@ fun revert(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun isPalindrome(n: Int): Boolean {
-    var pal = n
-    var n2 = 0
-    while (pal >= 10) {
-        n2 += pal % 10
-        n2 *= 10
-        pal /= 10
-    }
-    n2 += pal
-    return n2 == n
+    var palindrome = revert(n)
+    return palindrome == n
 }
 
 /**
@@ -192,13 +184,13 @@ fun isPalindrome(n: Int): Boolean {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun hasDifferentDigits(n: Int): Boolean = TODO()
-  //  var m = n
-  //  var lastDigit = 0
-  //  var penultimateDigit = 0
-  //  while (m > 0) {
-  //      lastDigit = m % 10
-  //      penultimateDigit = (m % 100) / 10
-  //      if (lastDigit == penultimateDigit) continue
+//  var m = n
+//  var lastDigit = 0
+//  var penultimateDigit = 0
+//  while (m > 0) {
+//      lastDigit = m % 10
+//      penultimateDigit = (m % 100) / 10
+//      if (lastDigit == penultimateDigit) continue
 
 /**
  * Средняя (4 балла)
@@ -231,7 +223,21 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var numberInSequence = 1
+    var sum = 0
+    var squareOfNumber = 0
+    while (sum < n) {
+        squareOfNumber = numberInSequence * numberInSequence
+        sum += digitNumber(squareOfNumber)
+        numberInSequence++
+    }
+    while (sum != n) {
+        squareOfNumber /= 10
+        sum--
+    }
+    return squareOfNumber % 10
+}
 
 /**
  * Сложная (5 баллов)
