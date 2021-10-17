@@ -90,7 +90,20 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var fibFirst = 1
+    var fibSecond = 1
+    var fibN = 0
+    if ((n == 1) || (n == 2)) return 1 else {
+        for (i in 3..n) {
+            fibN = fibFirst + fibSecond
+            fibFirst = fibSecond
+            fibSecond = fibN
+        }
+    }
+    return fibN
+
+}
 
 /**
  * Простая (2 балла)
@@ -171,7 +184,7 @@ fun revert(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun isPalindrome(n: Int): Boolean {
-    var palindrome = revert(n)
+    val palindrome = revert(n)
     return palindrome == n
 }
 
@@ -184,14 +197,6 @@ fun isPalindrome(n: Int): Boolean {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun hasDifferentDigits(n: Int): Boolean = TODO()
-//  var m = n
-//  var lastDigit = 0
-//  var penultimateDigit = 0
-//  while (m > 0) {
-//      lastDigit = m % 10
-//      penultimateDigit = (m % 100) / 10
-//      if (lastDigit == penultimateDigit) continue
-
 /**
  * Средняя (4 балла)
  *
@@ -248,4 +253,17 @@ fun squareSequenceDigit(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var numberInSequence = 0
+    var sum = 0
+    while (sum < n) {
+        numberInSequence++
+        sum += digitNumber(fib(numberInSequence))
+    }
+    numberInSequence = fib(numberInSequence)
+    while (sum > n) {
+        numberInSequence /= 10
+        sum--
+    }
+    return numberInSequence % 10
+}
