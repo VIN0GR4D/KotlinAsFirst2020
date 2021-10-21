@@ -80,21 +80,46 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var a = 1
+    var b = 1
+    for (i in 3..n) {
+        b = a + b
+        a = b - a
+    }
+    return b
+}
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var k = 1
+    for (i in 2..n) {
+        if ((n % i) == 0) {
+            k = i
+            break
+        }
+    }
+    return (k)
+}
 
 /**
  * Простая (2 балла)
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var k = 1
+    for (i in 2..(n - 1)) {
+        if ((n % i) == 0) {
+            k = i
+        }
+    }
+    return (k)
+}
 
 /**
  * Простая (2 балла)
@@ -192,7 +217,35 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var a = 0
+    var t = 0
+    var k = 0
+    var w = 0
+    var m = 0
+    var p = 0
+    for (i in 1..n) {
+        a += 1
+        k = a * a
+        m = 0
+        w = k
+        while (w > 0) {
+            m += 1
+            w /= 10
+        }
+        t = p + m
+        p = t
+        while (k > 0) {
+            if (t == n) {
+                return (k % 10)
+                break
+            }
+            t -= 1
+            k /= 10
+        }
+    }
+    return (-1)
+}
 
 /**
  * Сложная (5 баллов)
@@ -203,4 +256,37 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var a = 1
+    var b = 1
+    var w = 0
+    var m = 0
+    var t = 0
+    var p = 2
+    if ((n == 1) || (n == 2))
+        return (1)
+    else {
+        for (i in 3..n) {
+            b += a
+            a = b - a
+            w = b
+            m = 0
+            while (w > 0) {
+                m += 1
+                w /= 10
+            }
+            t = p + m
+            p = t
+            w = b
+            while (w > 0) {
+                if (t == n) {
+                    return (w % 10)
+                    break
+                }
+                w /= 10
+                t -= 1
+            }
+        }
+    }
+    return (-1)
+}
