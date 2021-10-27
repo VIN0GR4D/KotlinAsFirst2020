@@ -158,7 +158,6 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Int>, b: List<Int>): Int {
     var c = 0
-    if (a.isEmpty() || b.isEmpty()) return 0
     for (i in a.indices) {
         c += a[i] * b[i]
     }
@@ -186,12 +185,10 @@ fun polynom(p: List<Int>, x: Int): Int = TODO()
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Int>): MutableList<Int> {
-    return if (list.isEmpty()) list else {
-        for (i in 1 until list.size) {
-            list[i] += list[i - 1]
-        }
-        list
+    for (i in 1 until list.size) {
+        list[i] += list[i - 1]
     }
+    return list
 }
 
 /**
@@ -221,7 +218,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя (3 балла)
@@ -276,12 +273,21 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
-//    val normalNumbers = listOf<Int>(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
-//    val romanNumbers = listOf<String>("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
-//    var result = ""
-//    var m = n
-
+fun roman(n: Int): String {
+    val naturalNumbers = listOf<Int>(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    val romanNumbers = listOf<String>("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    var i = 1
+    var result = ""
+    var m = n
+    while (m > 0) {
+        while (m - naturalNumbers[naturalNumbers.size - i] >= 0) {
+            result += romanNumbers[romanNumbers.size - i]
+            m -= naturalNumbers[naturalNumbers.size - i]
+        }
+        i++
+    }
+    return result
+}
 
 /**
  * Очень сложная (7 баллов)

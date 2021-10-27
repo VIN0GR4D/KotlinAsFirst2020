@@ -91,10 +91,10 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var fibFirst = 1
-    var fibSecond = 1
     var fibN = 0
     if ((n == 1) || (n == 2)) return 1 else {
+        var fibFirst = 1
+        var fibSecond = 1
         for (i in 3..n) {
             fibN = fibFirst + fibSecond
             fibFirst = fibSecond
@@ -165,8 +165,7 @@ fun revert(n: Int): Int {
     var reversedN = 0
     var m = n
     while (m > 0) {
-        var digit = 0
-        digit = m % 10
+        val digit = m % 10
         reversedN *= 10
         m /= 10
         reversedN += digit
