@@ -182,13 +182,12 @@ fun fromRoman(roman: String): Int {
     var result = 0
     for (i in romanNumbers.indices) {
         val element = romanNumbers[i]
-        if (element !in romanNumbers) return -1 else
-            while (element in secondRoman) {
-                secondRoman = secondRoman.replaceFirst(element, "")
-                result += naturalNumbers[i]
-            }
+        while (element in secondRoman) {
+            secondRoman = secondRoman.replaceFirst(element, "")
+            result += naturalNumbers[i]
+        }
     }
-    if (result == 0) return -1
+    if (secondRoman != "") return -1
     return result
 }
 
