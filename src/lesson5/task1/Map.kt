@@ -96,7 +96,16 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val gradesOfStudents = mutableMapOf<Int, MutableList<String>>()
+    for ((name, grade) in grades) {
+        val currentGrade = gradesOfStudents[grade]
+        if (currentGrade != null) {
+            currentGrade += name
+        } else gradesOfStudents[grade] = mutableListOf(name)
+    }
+    return gradesOfStudents
+}
 
 /**
  * Простая (2 балла)
@@ -108,7 +117,14 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
+    for ((firstKey, firstValue) in a) {
+        for ((secondKey, secondValue) in b) {
+            if (firstKey == secondKey && firstValue == secondValue) return true
+        }
+    }
+    return false
+}
 
 /**
  * Простая (2 балла)
@@ -208,8 +224,21 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
-
+fun extractRepeats(list: List<String>): Map<String, Int> {
+    val map = mutableMapOf<String, Int>()
+    for (i in list) {
+        if (map.containsKey(i)) {
+            map[i] = map[i]!! + 1
+        } else map[i] = 1
+    }
+    val listForDelete = mutableListOf<String>()
+    for ((key, value) in map) {
+        if (value <= 1) {
+            listForDelete.add(key)
+        }
+    }
+    return map - listForDelete
+}
 /**
  * Средняя (3 балла)
  *
@@ -277,7 +306,16 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    val map = mutableMapOf<Int, Int>()
+    for (i in 0 until list.size) {
+        val difference = number - list[i]
+        if (difference in map) {
+            return map.getValue(difference) to i
+        } else map[list[i]] = i
+    }
+    return -1 to -1
+}
 
 /**
  * Очень сложная (8 баллов)

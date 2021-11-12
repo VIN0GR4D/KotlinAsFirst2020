@@ -175,7 +175,21 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    var secondRoman = roman
+    val naturalNumbers = listOf(900, 1000, 400, 500, 90, 100, 40, 50, 9, 10, 4, 5, 1)
+    val romanNumbers = listOf("CM", "M", "CD", "D", "XC", "C", "XL", "L", "IX", "X", "IV", "V", "I")
+    var result = 0
+    for (i in romanNumbers.indices) {
+        val element = romanNumbers[i]
+        while (element in secondRoman) {
+            secondRoman = secondRoman.replaceFirst(element,"")
+            result += naturalNumbers[i]
+        }
+    }
+    if (result == 0) return -1
+    return result
+}
 
 /**
  * Очень сложная (7 баллов)
