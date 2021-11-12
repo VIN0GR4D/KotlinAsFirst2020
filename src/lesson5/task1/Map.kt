@@ -119,11 +119,9 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
     for ((firstKey, firstValue) in a) {
-        for ((secondKey, secondValue) in b) {
-            if (firstKey == secondKey && firstValue == secondValue) return true
-        }
+        if (firstValue != b[firstKey]) return false
     }
-    return false
+    return true
 }
 
 /**
@@ -239,6 +237,7 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
     }
     return map - listForDelete
 }
+
 /**
  * Средняя (3 балла)
  *
