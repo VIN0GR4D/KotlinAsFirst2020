@@ -120,14 +120,31 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    var sum = 0.0
+    for (i in v.indices)
+        sum += v[i] * v[i]
+    return (sqrt(sum))
+}
 
 /**
  * Простая (2 балла)
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    var sum = 0.0
+    var k = 0.0
+    for (element in list) {
+        sum += element
+        k += 1
+    }
+    return if (k == 0.0) {
+        (k)
+    } else {
+        (sum / k)
+    }
+}
 
 /**
  * Средняя (3 балла)
@@ -186,7 +203,7 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): Nothing = TODO()
 
 /**
  * Средняя (3 балла)
@@ -195,7 +212,16 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var k = n
+    val res = mutableListOf<Int>()
+    while (k > 0) {
+        res.add(k % base)
+        k /= base
+    }
+    return if (n==0) listOf(0)
+    else (res.reversed())
+}
 
 /**
  * Сложная (4 балла)
@@ -241,7 +267,21 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var num = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    var rim = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    var k = n
+    var res = ""
+    var i = 12
+    while (k > 0) {
+        while (k - num[i] >= 0) {
+            k -= num[i]
+            res += rim[i]
+        }
+        i -= 1
+    }
+    return (res)
+}
 
 /**
  * Очень сложная (7 баллов)
