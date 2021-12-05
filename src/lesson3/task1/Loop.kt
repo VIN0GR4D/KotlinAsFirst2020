@@ -235,10 +235,7 @@ fun squareSequenceDigit(n: Int): Int {
         var counter = count2 + copyc
         count2 = counter
         while (number > 0) {
-            if (counter == n) {
-                return number % 10
-                break
-            }
+            if (counter == n) return number % 10
             counter -= 1
             number /= 10
         }
@@ -278,10 +275,7 @@ fun fibSequenceDigit(n: Int): Int {
             p = t
             w = b
             while (w > 0) {
-                if (t == n) {
-                    return (w % 10)
-                    break
-                }
+                if (t == n) return (w % 10)
                 w /= 10
                 t -= 1
             }
