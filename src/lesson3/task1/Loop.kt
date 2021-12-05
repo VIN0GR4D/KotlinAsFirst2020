@@ -97,13 +97,14 @@ fun fib(n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var k = 1
-    for (i in 2..n) {
-        if ((n % i) == 0) {
-            k = i
+    while (k <= n) {
+        k += 1
+        if (n % k == 0) {
+            return k
             break
         }
     }
-    return (k)
+    return -1
 }
 
 /**
@@ -112,13 +113,15 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var k = 1
-    for (i in 2..(n - 1)) {
-        if ((n % i) == 0) {
-            k = i
+    var k = n
+    while (k >= 2) {
+        k -= 1
+        if (n % k == 0) {
+            return k
+            break
         }
     }
-    return (k)
+    return -1
 }
 
 /**
@@ -218,33 +221,29 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var a = 0
-    var t = 0
-    var k = 0
-    var w = 0
-    var m = 0
-    var p = 0
+    var sch = 0
+    var count2 = 0
     for (i in 1..n) {
-        a += 1
-        k = a * a
-        m = 0
-        w = k
-        while (w > 0) {
-            m += 1
-            w /= 10
+        sch += 1
+        var number = sch * sch
+        var copyn = number
+        var copyc = 0
+        while (copyn > 0) {
+            copyc += 1
+            copyn /= 10
         }
-        t = p + m
-        p = t
-        while (k > 0) {
-            if (t == n) {
-                return (k % 10)
+        var counter = count2 + copyc
+        count2 = counter
+        while (number > 0) {
+            if (counter == n) {
+                return number % 10
                 break
             }
-            t -= 1
-            k /= 10
+            counter -= 1
+            number /= 10
         }
     }
-    return (-1)
+    return -1
 }
 
 /**
