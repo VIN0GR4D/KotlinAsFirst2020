@@ -2,6 +2,7 @@
 
 package lesson7.task1
 
+import lesson1.task1.numberRevert
 import java.io.File
 
 // Урок 7: работа с файлами
@@ -302,8 +303,41 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
+    val sign = listOf("*", "**", "~~")
+    val input = File(inputName).readText()
+    val file = input.replace(Regex("\\n"), "___-___")
+    var rep = Regex("\\*\\*(.*?)\\*\\*").replace(file) { zam ->
+        "<b>" + zam.value.replace("**", "") + "</b>"
+    }
+    rep = Regex("\\*(.*?)\\*").replace(rep) { zam ->
+        "<i>" + zam.value.replace("*", "") + "</i>"
+    }
+    rep = Regex("~~(.*?)~~").replace(rep) { zam ->
+        "<s>" + zam.value.replace("~~", "") + "</s>"
+    }
+    val list = rep.split("___-___")
+    var count = 0
+    var i = 0
+    val list1 = mutableListOf("<p>")
+    for (j in list) {
+        if ((j.replace("\t", "") != "") && (j.replace(Regex("\\s"), "") != "")) {
+            list1.add(j.replace("\t", ""))
+            count += 1
+        } else {
+            if (count != 0 && i + 1 != list.size) {
+                list1.add("</p><p>")
+                count = 0
+            }
+        }
+        i += 1
+    }
+    if (count == 0 && rep.trim() != "") {
+        list1.removeLast()
+    }
+    list1.add("</p>")
+    File(outputName).writeText("<html><body>${list1.joinToString(separator = "\n")}</body></html>")
 }
+
 
 /**
  * Сложная (23 балла)
@@ -470,5 +504,33 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     TODO()
-}
+    /*val list = mutableListOf<Int>()
+    val list1 = mutableListOf<Int>()
+    val list2 = mutableListOf<Int>()
+    var num = lhv
+    var i = 0
+    var del = rhv
+    var ch = 0
+    var result = 0
+    var count = 0
+    while (num > 0) {
+        list[count] = num % 10
+        num /= 10
+        count += 1
+    }
+    val res = StringBuilder()
+    res.append("$num | $del\n")
+    val out = File(outputName).bufferedWriter()
+    while (num >= del) {
+        while (ch < del) {
+            ch = ch * 10 + list[count]
+            count -= 1
 
+        }
+        list1[i] = ch / del
+        list2[i] = ch % del
+
+    }
+    out.write(res.toString())
+    out.close() */
+}
