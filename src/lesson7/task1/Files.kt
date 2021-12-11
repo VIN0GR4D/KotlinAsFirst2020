@@ -331,7 +331,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             }
         }
     }
-    File(outputName).writeText("<html><body><p>${lines.joinToString(separator = "")}</body></html>")
+    File(outputName).writeText("<html><body><p>${lines.joinToString(separator = "")}</p></body></html>")
 }
 
 /**
