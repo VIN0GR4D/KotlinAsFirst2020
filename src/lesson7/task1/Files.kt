@@ -2,8 +2,8 @@
 
 package lesson7.task1
 
-import lesson1.task1.numberRevert
 import java.io.File
+import kotlin.Int as Int
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -76,8 +76,25 @@ fun deleteMarked(inputName: String, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
-
+fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+    val file = File(inputName).readText().lowercase()
+    val res = mutableMapOf<String, Int>()
+    val list = file.split("\n")
+    for (i in substrings) {
+        val text = i.lowercase()
+        var count = 0
+        for (j in list) {
+            count += j.windowed(text.length){
+                if (it == text)
+                    1
+                else
+                    0
+            }.sum()
+        }
+        res[i] = count
+    }
+    return res
+}
 
 /**
  * Средняя (12 баллов)
