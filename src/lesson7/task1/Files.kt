@@ -311,16 +311,16 @@ Suspendisse <s>et elit in enim tempus iaculis</s>.
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val newFile = File(inputName).readText()
-    var swapCharacters = Regex("\\*\\*(.*?)\\*\\*").replace(newFile) { swap ->
+    var swapСharacters = Regex("\\*\\*([\\s\\S]*?)\\*\\*").replace(newFile) { swap ->
         "<b>" + swap.value.replace("**", "") + "</b>"
     }
-    swapCharacters = Regex("\\*(.*?)\\*").replace(swapCharacters) { swap ->
+    swapСharacters = Regex("\\*([\\s\\S]*?)\\*").replace(swapСharacters) { swap ->
         "<i>" + swap.value.replace("*", "") + "</i>"
     }
-    swapCharacters = Regex("~~(.*?)~~").replace(swapCharacters) { swap ->
+    swapСharacters = Regex("~~([\\s\\S]*?)~~").replace(swapСharacters) { swap ->
         "<s>" + swap.value.replace("~~", "") + "</s>"
     }
-    val lines = swapCharacters.split("\n").toMutableList()
+    val lines = swapСharacters.split("\n").toMutableList()
     for (x in lines.indices) {
         val line = lines[x]
         if (line.trim().isEmpty()) {
