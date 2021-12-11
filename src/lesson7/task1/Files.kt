@@ -320,13 +320,19 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     swapСharacters = Regex("~~([\\s\\S]*?)~~").replace(swapСharacters) { swap ->
         "<s>" + swap.value.replace("~~", "") + "</s>"
     }
+    var counter = 0
     val lines = swapСharacters.split("\n").toMutableList()
     for (x in lines.indices) {
         val line = lines[x]
         if (line.trim().isEmpty() && x != 0) {
-            if (x + 1 < lines.size && lines[x + 1].trim().isNotEmpty()) {
-                lines[x] = "</p><p>"
+            if (counter > 0) {
+                if (x + 1 < lines.size && lines[x + 1].trim().isNotEmpty()) {
+                    lines[x] = "</p><p>"
+                    counter = 0
+                }
             }
+        } else {
+            counter++
         }
     }
     File(outputName).writeText("<html><body><p>${lines.joinToString(separator = "")}</p></body></html>")
