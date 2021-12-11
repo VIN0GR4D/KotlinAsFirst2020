@@ -219,7 +219,7 @@ fun convert(n: Int, base: Int): List<Int> {
         res.add(k % base)
         k /= base
     }
-    return if (n==0) listOf(0)
+    return if (n == 0) listOf(0)
     else (res.reversed())
 }
 

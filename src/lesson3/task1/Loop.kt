@@ -101,7 +101,6 @@ fun minDivisor(n: Int): Int {
         k += 1
         if (n % k == 0) {
             return k
-            break
         }
     }
     return -1
@@ -118,7 +117,6 @@ fun maxDivisor(n: Int): Int {
         k -= 1
         if (n % k == 0) {
             return k
-            break
         }
     }
     return -1
