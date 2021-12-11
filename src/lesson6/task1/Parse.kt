@@ -162,7 +162,24 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val splitDescription = description.split("; ")
+    var theMostExpensiveTypeOfFood = ""
+    var costOfMostExpensive = 0.0
+    for (i in splitDescription) {
+        val splitFoodFromCost = i.split(" ")
+        if (splitFoodFromCost.size != 2) return ""
+        else {
+            val nameOfFood = splitFoodFromCost[0]
+            val costOfFood = splitFoodFromCost[1].toDouble()
+            if (costOfMostExpensive <= costOfFood) {
+                costOfMostExpensive = costOfFood
+                theMostExpensiveTypeOfFood = nameOfFood
+            }
+        }
+    }
+    return theMostExpensiveTypeOfFood
+}
 
 /**
  * Сложная (6 баллов)

@@ -63,7 +63,15 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Подчёркивание в середине и/или в конце строк значения не имеет.
  */
 fun deleteMarked(inputName: String, outputName: String) {
-    TODO()
+    val newFile = File(inputName).readLines()
+    val writer = File(outputName).bufferedWriter()
+    for (line in newFile) {
+        if (line.isEmpty() || line[0] != '_') {
+            writer.write(line)
+            writer.newLine()
+        }
+    }
+    writer.close()
 }
 
 /**
@@ -232,8 +240,27 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  *
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
+fun checkingWordsForIdenticalLetters(word: String): Boolean {
+    val text = word.toLowerCase()
+    for (letter in text) {
+        if (text.count { c -> c == letter } > 1)
+            return false
+    }
+    return true
+}
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+    val newFile = File(inputName).readLines()
+    var currentLength = 0
+    var listOfLongestWords = mutableListOf<String>()
+    for (line in newFile) {
+        if (line.length > currentLength && checkingWordsForIdenticalLetters(line)) {
+            currentLength = line.length
+            listOfLongestWords = mutableListOf(line)
+        } else if (line.length == currentLength && checkingWordsForIdenticalLetters(line)) {
+            listOfLongestWords.add(line)
+        }
+    }
+    File(outputName).writeText(listOfLongestWords.joinToString(separator = ", "))
 }
 
 /**
