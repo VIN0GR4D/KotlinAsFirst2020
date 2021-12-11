@@ -324,7 +324,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val lines = swapСharacters.split("\n").toMutableList()
     for (x in lines.indices) {
         val line = lines[x]
-        if (line.trim().isEmpty() && x != 0) {
+        if (line.trim().isEmpty()) {
             if (counter > 0) {
                 if (x + 1 < lines.size && lines[x + 1].trim().isNotEmpty()) {
                     lines[x] = "</p><p>"
