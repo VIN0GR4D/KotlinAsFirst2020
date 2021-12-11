@@ -326,12 +326,10 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
         if (line.trim().isEmpty()) {
             if (x + 1 < lines.size && lines[x + 1].trim().isNotEmpty()) {
                 lines[x] = "</p><p>"
-            } else {
-                lines[x] = "</p>"
             }
         }
     }
-    File(outputName).writeText("<html><body><p>${lines.joinToString(separator = "")}</body></html>")
+    File(outputName).writeText("<html><body><p>${lines.joinToString(separator = "")}</p></body></html>")
 }
 
 /**
