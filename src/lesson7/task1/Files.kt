@@ -68,7 +68,7 @@ fun deleteMarked(inputName: String, outputName: String) {
 }
 
 /**
- * Средняя (14 баллов)
+ * Средняя (14 баллов)       КОРОВА.windowed(3) IT = кор оро ров ова
  *
  * Во входном файле с именем inputName содержится некоторый текст.
  * На вход подаётся список строк substrings.
@@ -84,7 +84,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
         val text = i.toLowerCase()
         var count = 0
         for (j in list) {
-            count += j.windowed(text.length){
+            count += j.windowed(text.length) {
                 if (it == text)
                     1
                 else
@@ -351,8 +351,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     if (count == 0 && rep.trim() != "") {
         list1.removeLast()
     }
-    list1.add("</p>")
-    File(outputName).writeText("<html><body>${list1.joinToString(separator = "\n")}</body></html>")
+    File(outputName).writeText("<html><body>${list1.joinToString(separator = "\n")}</p></body></html>")
 }
 
 

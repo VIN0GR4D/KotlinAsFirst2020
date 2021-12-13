@@ -218,19 +218,24 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
+
+fun findN(number: Int, count2: Int, n: Int): Int {
+    var copyn = number
+    var copyc = 0
+    while (copyn > 0) {
+        copyc += 1
+        copyn /= 10
+    }
+    return count2 + copyc
+}
+
 fun squareSequenceDigit(n: Int): Int {
     var sch = 0
     var count2 = 0
     for (i in 1..n) {
         sch += 1
         var number = sch * sch
-        var copyn = number
-        var copyc = 0
-        while (copyn > 0) {
-            copyc += 1
-            copyn /= 10
-        }
-        var counter = count2 + copyc
+        var counter = findN(number, count2, n)
         count2 = counter
         while (number > 0) {
             if (counter == n) return number % 10
@@ -252,30 +257,21 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
     var a = 1
-    var b = 1
-    var w = 0
-    var m = 0
-    var t = 0
-    var p = 2
+    var number = 1
+    var count2 = 2
     if ((n == 1) || (n == 2))
         return (1)
     else {
         for (i in 3..n) {
-            b += a
-            a = b - a
-            w = b
-            m = 0
-            while (w > 0) {
-                m += 1
-                w /= 10
-            }
-            t = p + m
-            p = t
-            w = b
-            while (w > 0) {
-                if (t == n) return (w % 10)
-                w /= 10
-                t -= 1
+            number += a
+            a = number - a
+            var counter = findN(number, count2, n)
+            count2 = counter
+            var copyn = number
+            while (copyn > 0) {
+                if (counter == n) return (copyn % 10)
+                copyn /= 10
+                counter -= 1
             }
         }
     }
