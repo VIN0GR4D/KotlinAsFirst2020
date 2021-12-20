@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import java.lang.IllegalArgumentException
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -139,8 +140,8 @@ fun mean(list: List<Double>): Double {
         sum += element
         k += 1
     }
-    return if (k == 0.0) {
-        (k)
+    return if (k.equals(0.0)) {
+        k
     } else {
         (sum / k)
     }
@@ -215,12 +216,11 @@ fun factorizeToString(n: Int): Nothing = TODO()
 fun convert(n: Int, base: Int): List<Int> {
     var k = n
     val res = mutableListOf<Int>()
-    while (k > 0) {
+    while ((k > 0) || (res.isEmpty())) {
         res.add(k % base)
         k /= base
     }
-    return if (n == 0) listOf(0)
-    else (res.reversed())
+    return res.reversed()
 }
 
 /**

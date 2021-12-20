@@ -269,7 +269,7 @@ fun fibSequenceDigit(n: Int): Int {
             count2 = counter
             var copyn = number
             while (copyn > 0) {
-                if (counter == n) return (copyn % 10)
+                return if (counter == n) (copyn % 10) else -1
                 copyn /= 10
                 counter -= 1
             }

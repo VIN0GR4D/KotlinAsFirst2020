@@ -2,6 +2,7 @@
 
 package lesson6.task1
 
+import java.lang.IllegalArgumentException
 import kotlin.text.split as split
 
 // Урок 6: разбор строк, исключения
@@ -154,7 +155,6 @@ fun plusMinus(expression: String): Int = TODO()
 fun firstDuplicateIndex(str: String): Int {
     val string = str.toLowerCase()
     val parts = string.split(" ")
-    if (parts.size == 1) return -1
     var count = 0
     for (i in 0 until (parts.size - 1)) {
         if (parts[i] == parts[i + 1]) return count

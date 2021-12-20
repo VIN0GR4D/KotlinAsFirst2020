@@ -3,6 +3,7 @@
 package lesson7.task1
 
 import java.io.File
+import kotlin.math.abs
 import kotlin.Int as Int
 
 // Урок 7: работа с файлами
@@ -255,8 +256,8 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val res = StringBuilder()
     val out = File(outputName).bufferedWriter()
     val list = File(inputName).readLines()
-    val set = mutableSetOf<Char>()
     for (i in list.indices) {
+        val set = mutableSetOf<Char>()
         for (char in list[i]) {
             val charter = char.lowercaseChar()
             set.add(charter)
@@ -268,7 +269,6 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
         } else if ((set.size == list[i].length) && (list[i].length == maxlength)) {
             res.append(", ${list[i]}")
         }
-        set.clear()
     }
     out.write(res.toString())
     out.close()
@@ -323,21 +323,22 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val sign = listOf("*", "**", "~~")
     val input = File(inputName).readText()
     val file = input.replace(Regex("\\n"), "___-___")
-    var rep = Regex("\\*\\*(.*?)\\*\\*").replace(file) { zam ->
-        "<b>" + zam.value.replace("**", "") + "</b>"
+    var rep = Regex("\\*\\*(.*?)\\*\\*").replace(file) { replacer ->
+        "<b>" + replacer.value.replace("**", "") + "</b>"
     }
-    rep = Regex("\\*(.*?)\\*").replace(rep) { zam ->
-        "<i>" + zam.value.replace("*", "") + "</i>"
+    rep = Regex("\\*(.*?)\\*").replace(rep) { replacer ->
+        "<i>" + replacer.value.replace("*", "") + "</i>"
     }
-    rep = Regex("~~(.*?)~~").replace(rep) { zam ->
-        "<s>" + zam.value.replace("~~", "") + "</s>"
+    rep = Regex("~~(.*?)~~").replace(rep) { replacer ->
+        "<s>" + replacer.value.replace("~~", "") + "</s>"
     }
     val list = rep.split("___-___")
     var count = 0
     var i = 0
     val list1 = mutableListOf("<p>")
+    val regex = Regex("\\s")
     for (j in list) {
-        if ((j.replace("\t", "") != "") && (j.replace(Regex("\\s"), "") != "")) {
+        if ((j.replace("\t", "") != "") && (j.replace(regex, "") != "")) {
             list1.add(j.replace("\t", ""))
             count += 1
         } else {
@@ -353,7 +354,6 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     }
     File(outputName).writeText("<html><body>${list1.joinToString(separator = "\n")}</p></body></html>")
 }
-
 
 /**
  * Сложная (23 балла)
@@ -550,3 +550,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     out.write(res.toString())
     out.close() */
 }
+
+/*fun myFun(state: String, move: String): Any {
+    val letter = listOf("A", "B", "C", "E", "F", "G", "H")
+} */
