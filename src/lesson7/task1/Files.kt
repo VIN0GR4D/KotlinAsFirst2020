@@ -554,3 +554,348 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
 /*fun myFun(state: String, move: String): Any {
     val letter = listOf("A", "B", "C", "E", "F", "G", "H")
 } */
+
+/**
+ * В файле с именем inputName заданы описания квартир,
+ * предлагающихся для продажи, в следующем формате:
+ *
+ * Пионерская 9-17: комната 18, комната 14, кухня 7, коридор 4
+ * Школьная 12-14: комната 19, кухня 8, коридор 3
+ * Садовая 19-1-55: комната 12, комната 19, кухня 9, коридор 5
+ * Железнодорожная 3-6: комната 21, кухня 6, коридор 4
+ *
+ * Строчка начинается с адреса квартиры, после двоеточия
+ * перечисляются помещения квартиры через запятую, с указанием
+ * их площади.
+ *
+ * Параметр query содержит запрос, начинающийся с названия
+ * помещения, за которым следует его минимальная площадь,
+ * например, “кухня 8”. Через точку с запятой могут следовать
+ * другие ограничения, например “кухня 8; коридор 4”
+ * Функция должна найти все квартиры в списке,
+ * удовлетворяющие запросу (площадь кухни больше или равна 8,
+ * площадь коридора больше или равна 4)
+ *
+ * “Удовлетворительно” -- в запросе может присутствовать только
+ * одно помещение, например, “кухня 8”
+ *
+ * “Хорошо” -- в запросе может присутствовать несколько помещений,
+ * например, “кухня 8; комната 15”
+ *
+ * “Отлично” -- в запросе может присутствовать два и более
+ * однотипных помещения, например, “комната 19; комната 12” --
+ * двухкомнатная квартира,
+ * одна комната не менее 19, другая не менее 12
+ *
+ * При нарушении форматов входных данных следует выбрасывать
+ * исключение IllegalArgumentException, при невозможности
+ * прочитать файл выбрасывать исключение IOException.
+ *
+ * Предложить имя и тип результата функции. Кроме функции
+ * следует написать тесты, подтверждающие её работоспособность.
+ */
+fun foo(inputName: String, query: String): Any {
+    val flats = inputName.split("\n")
+    var res = ""
+    val map = mutableMapOf<String, String>()
+    val conditions = query.split("; ")
+    for (flat in flats) {
+        var count = 0
+        var listS = mutableListOf<Int>()
+        val rooms = flat.split(": ")[1].split(", ").toMutableList()
+        for (room in rooms) {
+            map[room.split(" ")[0]] = ""
+        }
+        for (room in rooms)
+            map[room.split(" ")[0]] = map.getValue(room.split(" ")[0]) + room.split(" ")[1] + ", "
+        for (condition in conditions) {
+            for (room in rooms) {
+                if (room.split(" ")[0] == condition.split("")[0]) {
+                    map[room.split(" ")[0]] = map.getValue(room.split(" ")[0]).dropLast(2)
+                    for (S in map[room.split(" ")[0]]!!.split(", "))
+                        listS.add(S.toInt())
+                    listS = listS.sorted() as MutableList<Int>
+                }
+            }
+            var roomsCopy = rooms
+            var countS = 0
+            for (s in listS.indices) {
+                var countR = 0
+                for (room in rooms.indices) {
+                    if (listS[s - countS] >= roomsCopy[room - countR].split(" ")[1].toInt() && roomsCopy[room - countR].split(
+                            " "
+                        )[0] == condition.split(" ")[0]
+                    ) {
+                        roomsCopy = roomsCopy.drop(room - count) as MutableList<String>
+                        countR += 1
+                        count += 1
+                        listS = listS.drop(s - countS) as MutableList<Int>
+                        countS += 1
+                    }
+                }
+            }
+        }
+        if (count == conditions.size) {
+            res += flat.split(": ")[0] + ", "
+        }
+    }
+    return res.dropLast(2)
+}
+
+fun foo1(inputName: String): Any {
+    var res = ""
+    val listScore = mutableListOf<Int>()
+    val list = inputName.split("\n")
+    val map = mutableMapOf<String, Int>()
+    val allTeams = mutableSetOf<String>()
+    for (pri in list) {
+        if (pri.isNotEmpty() && pri.split(", ").size == 3) {
+            val name = pri.split(", ")[1]
+            allTeams.add(name)
+            map[name] = 0
+        }
+    }
+    for (pri in list) {
+        if (pri.isNotEmpty() && pri.split(", ").size == 3) {
+            val name = pri.split(", ")[1]
+            map[name] = map.getValue(name) + pri.split(", ")[2].toInt()
+        }
+    }
+    for (team in allTeams) listScore.add(map[team]!!)
+    val listScore1 = listScore.sortedDescending()
+    for (score in listScore1) {
+        for (team in allTeams) {
+            if (score == map[team] && "$team, $score, " !in res) {
+                res += "$team, $score, "
+            }
+        }
+    }
+    return res.dropLast(2)
+}
+
+fun exam(inputName: String, dictFileName: String): String {
+    var text = inputName
+    for (remark in dictFileName.split("\n")) {
+        text =
+            text.replace(Regex(remark.split(" -> ")[0].lowercase(), RegexOption.IGNORE_CASE), remark.split(" -> ")[1])
+    }
+    return text
+}
+
+/**
+ * Робот Вася потерялся на поле. Поле задается в следующем формате:
+ * xxxxxxOx
+ * xxOxxxxx
+ * xxxxxxxx
+ * xxxxxxxx
+ * xxxxxxxx
+ * xxOxxxOx
+ * xxRxxxxx
+ * xxxxxOOx
+ *
+ * На поле отмечены состояния клеток, всего их может быть три: x — пустая
+ * клетка, O — клетка с препятствием, R — клетка с роботом. Считайте что
+ * на поле всегда ровно одна клетка занятая роботом.
+ *
+ * Роботу прислали список команд, которые он должен выполнить, чтобы добраться до
+ * точки эвакуации. Состояние поля задается в файле с именем inputName, список
+ * команд для робота приходит в списке commands. Вам необходимо вернуть состояние
+ * поля после того как робот выполнит все команды. Если робот пытается выйти за
+ * пределы поля или перейти на клетку с препятствием — бросить IllegalStateException.
+ *
+ * "Удовлетворительно" — Поле всегда имеет размер 8х8. У робота есть две команды:
+ * ХОД — робот делает один шаг в том направлении, в которое он
+ * сейчас смотрит. Изначально робот всегда смотрит на север (т.е. вверх).
+ * На Хорошо: ПОВОРОТ — робот поворачивается на 90 градусов по часовой стрелке
+ * (север -> восток -> юг -> запад -> северр).
+ *
+ *
+ * Имя и тип результата функции предложить самостоятельно. Кроме функции,
+ * следует написать тесты, подтверждающие её работоспособность
+ */
+
+fun robot(inputName: String, commands: List<String>): String {
+    val lines = inputName.split("\n")
+    var x = 0
+    var max = 0
+    var y = 0
+    var res = ""
+    for (line in lines.indices) {
+        val cell = lines[line]
+        var count = 0
+        for (char in cell) {
+            if (char == 'R') {
+                x = count
+                y = line
+            }
+            count += 1
+            if (count > max) max = count
+        }
+    }
+    var x1 = x
+    var y1 = y
+    var corner = 0
+    for (command in commands) {
+        if (command == "ПОВОРОТ") {
+            corner += 90
+        } else {
+            if (corner % 360 == 0) y1 -= 1
+            if (corner % 360 == 90) x1 += 1
+            if (corner % 360 == 180) y1 += 1
+            if (corner % 360 == 270) x1 -= 1
+        }
+        if (x1 > max || y1 >= lines.size || x1 < 0 || y1 < 0 || (lines[y1])[x1] == '0') throw IllegalStateException()
+    }
+    for (line in lines.indices) {
+        val cell = lines[line]
+        var count = 0
+        for (char in cell) {
+            if (count == x1 && line == y1) res += "R"
+            else if (count == x && line == y) res += "x"
+            else res += char
+            count += 1
+        }
+        if (line != lines.size - 1)
+            res += "\n"
+    }
+    return res
+}
+
+fun exam1(inputName: String, changes: List<String>): String {
+    var result = ""
+    var res = ""
+    val listNum = mutableListOf<Int>()
+    val map = mutableMapOf<Int, String>()
+    var res0 = ""
+    var res1 = ""
+    val strings = inputName.split("\n")
+    for (change in changes) {
+        if (change.split(" ")[0].toInt() < strings[0].split(" ")[0].toInt()) res0 = change
+        else if (change.split(" ")[0].toInt() > strings[strings.size - 1].split(" ")[0].toInt()) res1 = change
+        else
+            for (string in 0 until strings.size - 1) {
+                if (change.split(" ")[0].toInt() > strings[string].split(" ")[0].toInt() &&
+                    change.split(" ")[0].toInt() < strings[string + 1].split(" ")[0].toInt()
+                ) {
+                    map[change.split(" ")[0].toInt()] = change
+                    listNum.add(change.split(" ")[0].toInt())
+                }
+            }
+    }
+    for (index in 0..strings.size - 2) {
+        res += strings[index] + "\n"
+        for (num in listNum) {
+            if (num > strings[index].split(" ")[0].toInt() &&
+                num < strings[index + 1].split(" ")[0].toInt() && map[num]!! !in res
+            ) res += map[num] + "\n"
+        }
+    }
+    res += strings[strings.size - 1]
+    if (res0 == "" && res1 != "") result = res + "\n" + res1
+    if (res0 != "" && res1 == "") result = res0 + "\n" + res
+    if (res0 == "" && res1 == "") result = res
+    if (res0 != "" && res1 != "") result = res0 + "\n" + res + "\n" + res1
+    return result
+}
+
+fun football4(inputName: String): String {
+    if (!Regex("""[W0LD](( [W0LD])+)? - [а-я]+((\n[W0LD](( [W0LD])+)? - [а-я]+)?)+""", RegexOption.IGNORE_CASE).matches(
+            inputName
+        )
+    ) {
+        throw IllegalStateException()
+    }
+    val listOfScores = inputName.split("\n")
+    val teams = mutableSetOf<String>()
+    val listik = mutableListOf<Int>()
+    val map = mutableMapOf<String, Int>()
+    var winTeam = ""
+    for (i in listOfScores) {
+        val team = i.split(" - ")[1]
+        teams.add(team)
+        map[team] = 0
+    }
+    for (i in listOfScores) {
+        val splitLines = i.split(" - ")[0].split(" ")
+        for (j in splitLines) {
+            if (j == "W") map[i.split(" - ")[1]] = map.getValue(i.split(" - ")[1]) + 3
+            if (j == "D") map[i.split(" - ")[1]] = map.getValue(i.split(" - ")[1]) + 1
+        }
+    }
+    for (team in teams) {
+        listik.add(map[team]!!)
+    }
+    val sortedList = listik.sortedDescending()
+    for (team in teams) {
+        for (score in sortedList) {
+            if (score == map[team] && team !in winTeam) {
+                winTeam += team + ", "
+            }
+        }
+    }
+    return winTeam.dropLast(2)
+}
+
+fun segment(tStart: String, tEnd: String): String {
+    val listABC = listOf("ABCDEF", "BC", "ABDEG", "ABCDG", "BCGF", "ACDFG", "ACDEFG", "ABCF", "ABCDEFG", "ABCDFG")
+    var res = ""
+    val tStartMinutes = tStart.split(":")[0].toInt() * 60 + tStart.split(":")[1].toInt()
+    val tEndMinutes = tEnd.split(":")[0].toInt() * 60 + tEnd.split(":")[1].toInt()
+    var firstNum = ""
+    var secondNum = ""
+    var firstNum1 = ""
+    var secondNum1 = ""
+    if (tEndMinutes > tStartMinutes) {
+        for (time in tStartMinutes..tEndMinutes) {
+            for (number in listABC.indices) {
+                firstNum = listABC[((time / 60) / 10)]
+                firstNum1 = listABC[((time / 60) % 10)]
+                secondNum = listABC[((time % 60) / 10)]
+                secondNum1 = listABC[((time % 60) % 10)]
+            }
+            res += "$firstNum $firstNum1:$secondNum $secondNum1, "
+        }
+    }
+    if (tEndMinutes < tStartMinutes) {
+        var time = tStartMinutes
+        while (time <= 60 * 24 - 1) {
+            firstNum = listABC[((time / 60) / 10)]
+            firstNum1 = listABC[((time / 60) % 10)]
+            secondNum = listABC[((time % 60) / 10)]
+            secondNum1 = listABC[((time % 60) % 10)]
+            res += "$firstNum $firstNum1:$secondNum $secondNum1, "
+            time += 1
+        }
+        time = 0
+        while (time <= tEndMinutes) {
+            firstNum = listABC[((time / 60) / 10)]
+            firstNum1 = listABC[((time / 60) % 10)]
+            secondNum = listABC[((time % 60) / 10)]
+            secondNum1 = listABC[((time % 60) % 10)]
+            res += "$firstNum $firstNum1:$secondNum $secondNum1, "
+            time += 1
+        }
+    }
+    return res.dropLast(2)
+}
+
+fun exam(inputName: String): Any {
+    var text = File(inputName).readLines()
+    var result = ""
+    for (str in text.indices) {
+        if (text[str].startsWith("=")) {
+            result += (text[str].replaceFirst("=", "<h1>") + "</h1>") + "\n" + "<p>"
+        } else
+            if (text[str].startsWith("==")) {
+                result = result.dropLast(1) + "</p>" + "\n" + text[str].replaceFirst("==", "<h2>") + "</h2>" + "\n" + "<p>"
+            } else
+                if (text[str].startsWith("===")) {
+                    result = result.dropLast (1) + "</p>" + "\n" + text[str].replaceFirst("===", "<h3>") + "</h3>" + "\n" + "<p>"
+                } else
+                    if (text[str].isEmpty() && "\n" in result) {
+                        result = result.dropLast(1) + "</p>" + "\n" + "<p>"
+                    } else result += text[str] + "\n"
+    }
+    return "<html><body><p>${result.replace("+", "<br>")}</p></html></body>" // список в строку с разделителем \n
+}
+
