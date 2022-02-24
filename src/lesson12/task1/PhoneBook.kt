@@ -21,7 +21,7 @@ import lesson9.task1.MatrixImpl
  * Класс должен иметь конструктор по умолчанию (без параметров).
  */
 class PhoneBook {
-    private val phoneBook: MutableMap<String, MutableList<String>> = mutableMapOf()
+    private val phoneBook: MutableMap<String, MutableSet<String>> = mutableMapOf()
 
     /**
      * Добавить человека.
@@ -29,12 +29,11 @@ class PhoneBook {
      * и false, если человек с таким именем уже был в телефонной книге
      * (во втором случае телефонная книга не должна меняться).
      */
-    fun addHuman(name: String): Boolean {
-        return if (name !in phoneBook.keys) {
-            phoneBook[name] = mutableListOf<String>()
-            true
-        } else false
-    }
+    fun addHuman(name: String): Boolean = if (name !in phoneBook.keys) {
+        phoneBook[name] = mutableSetOf<String>()
+        true
+    } else false
+
 
     /**
      * Убрать человека.
@@ -42,12 +41,10 @@ class PhoneBook {
      * и false, если человек с таким именем отсутствовал в телефонной книге
      * (во втором случае телефонная книга не должна меняться).
      */
-    fun removeHuman(name: String): Boolean {
-        return if (phoneBook[name] != null) {
-            phoneBook.remove(name)
-            true
-        } else false
-    }
+    fun removeHuman(name: String): Boolean = if (phoneBook[name] != null) {
+        phoneBook.remove(name)
+        true
+    } else false
 
     /**
      * Добавить номер телефона.
@@ -59,9 +56,8 @@ class PhoneBook {
     fun addPhone(name: String, phone: String): Boolean {
         var res = true
         if (phoneBook[name] == null) res = false
-        if (phone in phoneBook[name]!!) res = false
-        for (names in phoneBook.keys) {
-            if (phone in phoneBook[names]!!) res = false
+        for ((name, numbers) in phoneBook) {
+            if (phone in numbers) res = false
         }
         if (res) phoneBook[name]!!.add(phone)
         return res
@@ -106,7 +102,7 @@ class PhoneBook {
      * и каждому человеку соответствует одинаковый набор телефонов.
      * Порядок людей / порядок телефонов в книге не должен иметь значения.
      */
-    override fun equals(other: Any?): Boolean = other is PhoneBook
+    override fun equals(other: Any?): Boolean = other is PhoneBook && other.phoneBook == this.phoneBook
 
     override fun hashCode(): Int = phoneBook.hashCode()
 }

@@ -6,17 +6,15 @@ package lesson11.task1
  * Фабричный метод для создания комплексного числа из строки вида x+yi
  */
 fun Complex(s: String): Complex {
-    var res = Complex(0.0, 0.0)
     val reim = s.split('+', '-')
     val im = reim[1].dropLast(1).toDouble()
     val re = reim[0].toDouble()
-    res = if (s[0] == '-') {
+    return if (s[0] == '-') {
         val newS = s.drop(1)
         if ('-' in newS) Complex(-re, -im)
         else Complex(-re, im)
     } else if ('-' in s) Complex(re, -im)
     else Complex(re, im)
-    return res
 }
 
 /**
@@ -73,9 +71,9 @@ class Complex(val re: Double, val im: Double) {
      */
     override fun toString(): String {
         var res = ""
-        if (im < 0.0) res = re.toString() + im.toString() + 'i'
-        if (im > 0.0) res = re.toString() + "+" + im.toString() + 'i'
-        if (im == 0.0) res = re.toString()
+        if (im < 0.0) res = "$re$im" + "i"
+        if (im > 0.0) res = "$re+$im" + 'i'
+        if (im == 0.0) res = "$re"
         return res
     }
 }
