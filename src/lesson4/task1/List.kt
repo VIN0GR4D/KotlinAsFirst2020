@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import java.lang.IllegalArgumentException
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -131,7 +132,6 @@ fun abs(v: List<Double>): Double =
 fun mean(list: List<Double>): Double {
     return if (list.isEmpty()) 0.0
     else list.sum() / list.size
-}
 
 /**
  * Средняя (3 балла)
@@ -218,6 +218,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
+
 fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
@@ -227,7 +228,15 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var k = n
+    val res = mutableListOf<Int>()
+    while ((k > 0) || (res.isEmpty())) {
+        res.add(k % base)
+        k /= base
+    }
+    return res.reversed()
+}
 
 /**
  * Сложная (4 балла)

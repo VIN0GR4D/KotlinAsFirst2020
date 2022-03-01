@@ -2,6 +2,9 @@
 
 package lesson5.task1
 
+import java.lang.IllegalArgumentException
+import java.lang.StringBuilder
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -149,7 +152,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * В выходном списке не должно быть повторяющихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b).toList()
 
 /**
  * Средняя (3 балла)
@@ -208,7 +211,10 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+    word.toSet()
+    return word.all { it.toLowerCase() in chars }
+}
 
 /**
  * Средняя (4 балла)
@@ -223,19 +229,8 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
-    val map = mutableMapOf<String, Int>()
-    for (i in list) {
-        if (map.containsKey(i)) {
-            map[i] = map[i]!! + 1
-        } else map[i] = 1
-    }
-    val listForDelete = mutableListOf<String>()
-    for ((key, value) in map) {
-        if (value <= 1) {
-            listForDelete.add(key)
-        }
-    }
-    return map - listForDelete
+    val result = list.groupingBy { it }.eachCount().filter { it.value > 1 }
+    return result.toMap()
 }
 
 /**
@@ -306,14 +301,13 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    val map = mutableMapOf<Int, Int>()
-    for (i in 0 until list.size) {
-        val difference = number - list[i]
-        if (difference in map) {
-            return map.getValue(difference) to i
-        } else map[list[i]] = i
+    val mapa = mutableMapOf<Int, Int>()
+    for ((index, num) in list.withIndex()) {
+        val value = number - num
+        if (mapa.containsKey(value)) return Pair(mapa.getValue(value), index)
+        mapa[num] = index
     }
-    return -1 to -1
+    return Pair(-1, -1)
 }
 
 /**
